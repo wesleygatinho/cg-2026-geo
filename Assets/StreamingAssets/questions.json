@@ -1,0 +1,103 @@
+{
+  "questions": [
+    {
+      "id": "q_rect_area_01",
+      "prompt": "Calcule a área do retângulo (a=0,30 m, b=0,20 m).",
+      "shape": 0,
+      "metric": 1,
+      "a": 0.30,
+      "b": 0.20,
+      "tolerance": 0.001,
+      "unit": "m2"
+    },
+    {
+      "id": "q_rect_per_01",
+      "prompt": "Calcule o perímetro do retângulo (a=0,30 m, b=0,20 m).",
+      "shape": 0,
+      "metric": 0,
+      "a": 0.30,
+      "b": 0.20,
+      "tolerance": 0.001,
+      "unit": "m"
+    },
+    {
+      "id": "q_tri_per_01",
+      "prompt": "Calcule o perímetro do triângulo (a=0,20 m, b=0,25 m, c=0,30 m).",
+      "shape": 1,
+      "metric": 0,
+      "a": 0.20,
+      "b": 0.25,
+      "c": 0.30,
+      "tolerance": 0.001,
+      "unit": "m"
+    },
+    {
+      "id": "q_circ_area_01",
+      "prompt": "Calcule a área do círculo (r=0,10 m).",
+      "shape": 2,
+      "metric": 1,
+      "r": 0.10,
+      "tolerance": 0.001,
+      "unit": "m2"
+    },
+    {
+      "id": "q_cube_vol_01",
+      "prompt": "Calcule o volume do cubo (aresta a=0,25 m).",
+      "shape": 3,
+      "metric": 2,
+      "a": 0.25,
+      "tolerance": 0.0005,
+      "unit": "m3"
+    },
+    {
+      "id": "q_cube_sa_01",
+      "prompt": "Calcule a área total do cubo (aresta a=0,25 m).",
+      "shape": 3,
+      "metric": 3,
+      "a": 0.25,
+      "tolerance": 0.001,
+      "unit": "m2"
+    },
+    {
+      "id": "q_cuboid_vol_01",
+      "prompt": "Calcule o volume do paralelepípedo (a=0,30 m, b=0,20 m, c=0,10 m).",
+      "shape": 4,
+      "metric": 2,
+      "a": 0.30,
+      "b": 0.20,
+      "c": 0.10,
+      "tolerance": 0.001,
+      "unit": "m3"
+    },
+    {
+      "id": "q_cylinder_vol_01",
+      "prompt": "Calcule o volume do cilindro (r=0,10 m, h=0,30 m).",
+      "shape": 5,
+      "metric": 2,
+      "r": 0.10,
+      "h": 0.30,
+      "tolerance": 0.001,
+      "unit": "m3"
+    },
+    {
+      "id": "q_cylinder_sa_01",
+      "prompt": "Calcule a área total do cilindro (r=0,10 m, h=0,30 m).",
+      "shape": 5,
+      "metric": 3,
+      "r": 0.10,
+      "h": 0.30,
+      "tolerance": 0.01,
+      "unit": "m2"
+    },
+    {
+      "id": "q_sphere_sa_01",
+      "prompt": "Calcule a área total da esfera (r=0,12 m).",
+      "shape": 6,
+      "metric": 3,
+      "r": 0.12,
+      "tolerance": 0.01,
+      "unit": "m2"
+    }
+  ]
+}
+
