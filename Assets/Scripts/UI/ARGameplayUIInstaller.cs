@@ -15,6 +15,8 @@ namespace ARGeometryGame.UI
         private InputField _answer;
         private Text _feedback;
 
+        private Transform _choicesContainer;
+
         private ARGameplayQuizController _quiz;
         private ARSessionState _arState;
         private NotTrackingReason _notTrackingReason;
@@ -25,23 +27,39 @@ namespace ARGeometryGame.UI
             var canvas = UIFactory.EnsureCanvas("UI");
             var root = canvas.GetComponent<RectTransform>();
 
+            // Background panel to improve text readability over camera
+            var bgGo = new GameObject("UIBackground");
+            bgGo.transform.SetParent(root, false);
+            var bgImage = bgGo.AddComponent<UnityEngine.UI.Image>();
+            bgImage.color = new Color(0f, 0f, 0f, 0.45f); // semi-transparent black
+            var bgRt = bgGo.GetComponent<RectTransform>();
+            bgRt.anchorMin = new Vector2(0.03f, 0.02f);
+            bgRt.anchorMax = new Vector2(0.97f, 0.96f);
+            bgRt.offsetMin = Vector2.zero;
+            bgRt.offsetMax = Vector2.zero;
+
             _prompt = UIFactory.CreateText(root, "Prompt", "Carregando...", 34, TextAnchor.UpperLeft);
             _prompt.rectTransform.anchorMin = new Vector2(0.05f, 0.72f);
             _prompt.rectTransform.anchorMax = new Vector2(0.95f, 0.95f);
             _prompt.rectTransform.offsetMin = Vector2.zero;
             _prompt.rectTransform.offsetMax = Vector2.zero;
+            _prompt.color = Color.white;
+            _prompt.fontStyle = FontStyle.Bold;
 
             _status = UIFactory.CreateText(root, "Status", "", 28, TextAnchor.UpperLeft);
             _status.rectTransform.anchorMin = new Vector2(0.05f, 0.63f);
             _status.rectTransform.anchorMax = new Vector2(0.95f, 0.72f);
             _status.rectTransform.offsetMin = Vector2.zero;
             _status.rectTransform.offsetMax = Vector2.zero;
+            _status.color = Color.white;
 
             _feedback = UIFactory.CreateText(root, "Feedback", "", 30, TextAnchor.MiddleCenter);
             _feedback.rectTransform.anchorMin = new Vector2(0.05f, 0.52f);
             _feedback.rectTransform.anchorMax = new Vector2(0.95f, 0.63f);
             _feedback.rectTransform.offsetMin = Vector2.zero;
             _feedback.rectTransform.offsetMax = Vector2.zero;
+            _feedback.color = Color.yellow;
+            _feedback.fontStyle = FontStyle.Bold;
 
             _answer = UIFactory.CreateInputField(root, "Answer", "Digite sua resposta...");
             var answerRt = _answer.GetComponent<RectTransform>();
@@ -50,24 +68,34 @@ namespace ARGeometryGame.UI
             answerRt.offsetMin = Vector2.zero;
             answerRt.offsetMax = Vector2.zero;
 
+            // choices container (hidden by default)
+            var choicesGo = new GameObject("Choices");
+            choicesGo.transform.SetParent(root, false);
+            var choicesRt = choicesGo.AddComponent<RectTransform>();
+            choicesRt.anchorMin = new Vector2(0.05f, 0.26f);
+            choicesRt.anchorMax = new Vector2(0.95f, 0.50f);
+            choicesRt.offsetMin = Vector2.zero;
+            choicesRt.offsetMax = Vector2.zero;
+            _choicesContainer = choicesRt;
+
             var submit = UIFactory.CreateButton(root, "Submit", "Responder", () => _quiz.SubmitAnswer(_answer.text));
             var submitRt = submit.GetComponent<RectTransform>();
-            submitRt.anchorMin = new Vector2(0.05f, 0.26f);
-            submitRt.anchorMax = new Vector2(0.48f, 0.37f);
+            submitRt.anchorMin = new Vector2(0.05f, 0.12f);
+            submitRt.anchorMax = new Vector2(0.48f, 0.22f);
             submitRt.offsetMin = Vector2.zero;
             submitRt.offsetMax = Vector2.zero;
 
             var skip = UIFactory.CreateButton(root, "Skip", "Pular", () => _quiz.SkipQuestion());
             var skipRt = skip.GetComponent<RectTransform>();
-            skipRt.anchorMin = new Vector2(0.52f, 0.26f);
-            skipRt.anchorMax = new Vector2(0.95f, 0.37f);
+            skipRt.anchorMin = new Vector2(0.52f, 0.12f);
+            skipRt.anchorMax = new Vector2(0.95f, 0.22f);
             skipRt.offsetMin = Vector2.zero;
             skipRt.offsetMax = Vector2.zero;
 
             var planes = UIFactory.CreateButton(root, "Planes", "Mostrar/Esconder Planos", () => _quiz.TogglePlanes());
             var planesRt = planes.GetComponent<RectTransform>();
-            planesRt.anchorMin = new Vector2(0.05f, 0.12f);
-            planesRt.anchorMax = new Vector2(0.95f, 0.23f);
+            planesRt.anchorMin = new Vector2(0.05f, 0.02f);
+            planesRt.anchorMax = new Vector2(0.95f, 0.10f);
             planesRt.offsetMin = Vector2.zero;
             planesRt.offsetMax = Vector2.zero;
 
@@ -112,6 +140,57 @@ namespace ARGeometryGame.UI
             _status.text = BuildStatusText(index, total);
             _answer.text = "";
             _feedback.text = "";
+
+            // clear choices
+            foreach (Transform child in _choicesContainer)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            if (q?.choices != null && q.choices.Length > 0)
+            {
+                // show choices and hide input
+                _answer.gameObject.SetActive(false);
+                _choicesContainer.gameObject.SetActive(true);
+
+                for (var i = 0; i < q.choices.Length; i++)
+                {
+                    var idx = i; // capture
+                    var btn = UIFactory.CreateButton(_choicesContainer, $"Choice{idx}", q.choices[i], () => OnChoiceSelected(q, idx));
+                    var rt = btn.GetComponent<RectTransform>();
+                    // layout: stack choices vertically
+                    rt.anchorMin = new Vector2(0f, 1f - (float)(idx + 1) / q.choices.Length);
+                    rt.anchorMax = new Vector2(1f, 1f - (float)idx / q.choices.Length);
+                    rt.offsetMin = Vector2.zero;
+                    rt.offsetMax = Vector2.zero;
+                }
+            }
+            else
+            {
+                // show input and hide choices
+                _answer.gameObject.SetActive(true);
+                _choicesContainer.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnChoiceSelected(GeometryQuestion q, int idx)
+        {
+            if (q == null)
+            {
+                return;
+            }
+
+            var correct = idx == q.correctIndex;
+            GameSession.RegisterAttempt(correct);
+            if (!correct)
+            {
+                var expected = q.correctIndex >= 0 && q.correctIndex < (q.choices?.Length ?? 0) ? q.choices[q.correctIndex] : "(resposta)";
+                _feedback.text = $"Incorreto. Tente novamente. (Resposta correta: {expected})";
+                return;
+            }
+
+            _feedback.text = "Correto!";
+            _quiz.SkipQuestion();
         }
 
         private void HandleFeedback(string msg)

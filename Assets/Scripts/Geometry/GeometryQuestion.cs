@@ -18,6 +18,12 @@ namespace ARGeometryGame.Geometry
 
         public float tolerance;
         public string unit;
+
+        // Multiple-choice support (optional). If `choices` is set and has length > 0,
+        // the UI will present these options and the `correctIndex` indicates the
+        // index of the correct choice.
+        public string[] choices;
+        public int correctIndex = -1;
     }
 }
 

@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="ARGeometryGame.Runtime.csproj" />
+  <Project Path="ARGeometryGame.Editor.csproj" />
+</Solution>

@@ -15,6 +15,9 @@ namespace ARGeometryGame.Gameplay
         [SerializeField] private string questionFileName = "questions.json";
         [SerializeField] private int questionsPerRun = 10;
 
+        // If >= 0, only questions with this shape will be used. -1 = all shapes.
+        [SerializeField] private int shapeFilter = -1;
+
         [SerializeField] private ARPlacementManager placementManager;
         [SerializeField] private ARAnchorPlacementManager anchorPlacementManager;
         [SerializeField] private ARPlaneVisibilityController planeVisibilityController;
@@ -171,12 +174,40 @@ namespace ARGeometryGame.Gameplay
         private void LoadRunQuestions()
         {
             var all = QuestionBankLoader.LoadQuestionsFromStreamingAssets(questionFileName);
+
+            // apply shape filter if requested
+            if (shapeFilter >= 0 && all != null && all.Length > 0)
+            {
+                var filtered = new List<GeometryQuestion>();
+                foreach (var q in all)
+                {
+                    if ((int)q.shape == shapeFilter)
+                    {
+                        filtered.Add(q);
+                    }
+                }
+
+                all = filtered.ToArray();
+            }
+
             var seed = Environment.TickCount;
             var selected = QuestionSelector.SelectRandom(all, questionsPerRun, seed);
             _questions.Clear();
             _questions.AddRange(selected);
             _index = 0;
             GameSession.StartNew(_questions.Count);
+        }
+
+        // Public API so UI can set the desired shape filter at runtime.
+        public void SetShapeFilter(int filter)
+        {
+            shapeFilter = filter; // -1 to clear filter
+            LoadRunQuestions();
+            RaiseQuestionChanged();
+            if (_anchorTransform != null)
+            {
+                UpdatePlacedVisual();
+            }
         }
 
         private void TryHandlePlacementTap()

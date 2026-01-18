@@ -72,7 +72,8 @@ namespace ARGeometryGame.Gameplay
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = "Cuboid";
-            go.transform.localScale = new Vector3(a, c, b);
+            // Fix ordering: a = x, b = y, c = z
+            go.transform.localScale = new Vector3(a, b, c);
             return go;
         }
 
@@ -97,7 +98,8 @@ namespace ARGeometryGame.Gameplay
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = "Rectangle";
             go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale = new Vector3(a, 0.02f, b);
+            // Increase thickness so rectangle appears as a 3D object
+            go.transform.localScale = new Vector3(a, 0.1f, b);
             return go;
         }
 
@@ -105,7 +107,8 @@ namespace ARGeometryGame.Gameplay
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             go.name = "Circle";
-            go.transform.localScale = new Vector3(r * 2f, 0.005f, r * 2f);
+            // Make the disk noticeably 3D (thin but visible thickness)
+            go.transform.localScale = new Vector3(r * 2f, 0.05f, r * 2f);
             return go;
         }
 
@@ -126,7 +129,8 @@ namespace ARGeometryGame.Gameplay
             var under = c * c - cx * cx;
             var cz = under <= 0 ? 0 : Mathf.Sqrt(under);
 
-            var thickness = 0.02f;
+            // Increase thickness to make triangle a 3D prism
+            var thickness = 0.1f;
             var v0 = new Vector3(ax, 0, az);
             var v1 = new Vector3(bx, 0, bz);
             var v2 = new Vector3(cx, 0, cz);
