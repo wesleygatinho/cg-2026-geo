@@ -255,6 +255,10 @@ Assets/
 - **Gameplay**: Controla o fluxo de gameplay, sistema de questões e validação de respostas
 - **UI**: Gerencia todas as interfaces do usuário e feedback visual
 
+## Alunos
+ - André Luis Aguiar do Nascimento
+ - Wesley dos Santos Gatinho
+
 ## Licença
 
 Este projeto é disponibilizado para fins educacionais.
