@@ -71,7 +71,6 @@ namespace ARGeometryGame.Gameplay
             
             // Generate Grid Texture
             mat.mainTexture = GenerateGridTexture(color);
-
             mr.material = mat;
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             mr.receiveShadows = true;
@@ -135,6 +134,7 @@ namespace ARGeometryGame.Gameplay
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = "Rectangle";
             go.transform.localRotation = Quaternion.identity;
+
             // Increased thickness from 0.02f to 0.05f for better 3D visibility
             go.transform.localScale = new Vector3(a, 0.05f, b);
             return go;
@@ -144,6 +144,7 @@ namespace ARGeometryGame.Gameplay
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             go.name = "Circle";
+
             // Increased thickness from 0.005f to 0.02f
             go.transform.localScale = new Vector3(r * 2f, 0.02f, r * 2f);
             return go;
@@ -189,7 +190,10 @@ namespace ARGeometryGame.Gameplay
 
             mf.sharedMesh = mesh;
             go.transform.localRotation = Quaternion.identity;
-            go.AddComponent<MeshCollider>().sharedMesh = mesh;
+            var mc = go.AddComponent<MeshCollider>();
+            mc.sharedMesh = mesh;
+            // convex helps physics interactions on simple shapes
+            mc.convex = true;
             return go;
         }
     }
