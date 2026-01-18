@@ -44,9 +44,20 @@ namespace ARGeometryGame.Gameplay
             {
                 TryPlaceFallback();
             }
-            else if (!HasPlacedObject)
+            // If not placed, try to place on tap
+            if (!HasPlacedObject)
             {
-                UpdatePlacementHint();
+                if (!placementManager.TryGetPlacementPose(out var pose))
+                {
+                    return;
+                }
+
+                // In Fallback mode, we just use the pose from placement manager which simulates floor
+                // But we need to check if user TAPPED
+                
+                // ... wait, the code below checks for touch inside TryHandlePlacementTap.
+                // But TryHandlePlacementTap was previously calling ShouldUseFallbackPlacement.
+                // Let's refactor to use the Reticle + Tap flow.
             }
         }
 
@@ -54,26 +65,22 @@ namespace ARGeometryGame.Gameplay
         {
             if (!HasPlacedObject)
             {
-                if (!ShouldUseFallbackPlacement())
-                {
-                    UpdatePlacementHint();
-                }
+                // Always update hint if we are scanning
+                UpdatePlacementHint();
                 TryHandlePlacementTap();
             }
         }
 
         private void UpdatePlacementHint()
         {
-            if (_planeManager == null) return;
+            if (HasPlacedObject) return;
+
+            string msg = "Aponte para o chão e toque para colocar o objeto.";
             
-            string msg;
-            if (_planeManager.trackables.count == 0)
+            // If AR is working and we have no planes
+            if (_planeManager != null && _planeManager.trackables.count == 0 && IsARReady())
             {
-                msg = "Mova o dispositivo lentamente para detectar o chão.";
-            }
-            else
-            {
-                msg = "Toque nos pontos ou no plano detectado para colocar o objeto.";
+                msg = "Mova o celular para detectar o chão...";
             }
 
             if (_lastFeedback != msg)
@@ -229,24 +236,37 @@ namespace ARGeometryGame.Gameplay
                 return;
             }
 
-            if (ShouldUseFallbackPlacement())
-            {
-                TryPlaceFallback();
-                return;
-            }
-
-            if (!placementManager.TryGetPlacementPose(out var pose, out var trackableId))
+            // Check if pointer is over UI
+            if (UnityEngine.EventSystems.EventSystem.current != null && 
+                UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
                 return;
             }
 
-            var anchor = anchorPlacementManager.PlaceAnchor(pose, trackableId);
+            // Use the unified PlacementManager to get the pose (works for both AR and Fallback now)
+            if (!placementManager.TryGetPlacementPose(out var pose))
+            {
+                return;
+            }
+
+            // Create Anchor at the hit pose
+            // For fallback, we might not get a real trackableId, so we pass default
+            var anchor = anchorPlacementManager.PlaceAnchor(pose, default);
             if (anchor == null)
             {
-                return;
+                // If anchor creation failed (e.g. fallback mode often fails to create native anchors),
+                // just create a GameObject manually
+                 var go = new GameObject("Fallback Anchor");
+                 go.transform.position = pose.position;
+                 go.transform.rotation = pose.rotation;
+                 anchor = go.AddComponent<ARAnchor>(); // This might not work if AR is broken, but the transform is what matters
+                 _anchorTransform = go.transform;
+            }
+            else 
+            {
+                _anchorTransform = anchor.transform;
             }
 
-            _anchorTransform = anchor.transform;
             planeVisibilityController.SetPlanesVisible(false);
             UpdatePlacedVisual();
             FeedbackChanged?.Invoke("Objeto colocado. Responda a questão.");

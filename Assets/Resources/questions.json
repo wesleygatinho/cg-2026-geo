@@ -2,7 +2,7 @@
   "questions": [
     {
       "id": "q_rect_area_01",
-      "prompt": "Calcule a área do retângulo (a=0,30 m, b=0,20 m).",
+      "prompt": "Qual é a área desse retângulo azul? (lado a=30cm, lado b=20cm)",
       "shape": 0,
       "metric": 1,
       "a": 0.30,
@@ -12,7 +12,7 @@
     },
     {
       "id": "q_rect_per_01",
-      "prompt": "Calcule o perímetro do retângulo (a=0,30 m, b=0,20 m).",
+      "prompt": "Se você andar em volta desse retângulo, quantos metros vai andar? (a=30cm, b=20cm)",
       "shape": 0,
       "metric": 0,
       "a": 0.30,
@@ -22,7 +22,7 @@
     },
     {
       "id": "q_tri_per_01",
-      "prompt": "Calcule o perímetro do triângulo (a=0,20 m, b=0,25 m, c=0,30 m).",
+      "prompt": "Some os lados desse triângulo! (lados: 20cm, 25cm e 30cm)",
       "shape": 1,
       "metric": 0,
       "a": 0.20,
@@ -33,7 +33,7 @@
     },
     {
       "id": "q_circ_area_01",
-      "prompt": "Calcule a área do círculo (r=0,10 m).",
+      "prompt": "Qual o espaço que esse círculo roxo ocupa? (raio=10cm)",
       "shape": 2,
       "metric": 1,
       "r": 0.10,
@@ -42,7 +42,7 @@
     },
     {
       "id": "q_cube_vol_01",
-      "prompt": "Calcule o volume do cubo (aresta a=0,25 m).",
+      "prompt": "Quanto espaço tem dentro desse cubo verde? (aresta=25cm)",
       "shape": 3,
       "metric": 2,
       "a": 0.25,
@@ -51,7 +51,7 @@
     },
     {
       "id": "q_cube_sa_01",
-      "prompt": "Calcule a área total do cubo (aresta a=0,25 m).",
+      "prompt": "Se a gente pintar todos os lados do cubo, qual a área pintada? (aresta=25cm)",
       "shape": 3,
       "metric": 3,
       "a": 0.25,
@@ -60,7 +60,7 @@
     },
     {
       "id": "q_cuboid_vol_01",
-      "prompt": "Calcule o volume do paralelepípedo (a=0,30 m, b=0,20 m, c=0,10 m).",
+      "prompt": "Qual o volume dessa caixa amarela? (30cm x 20cm x 10cm)",
       "shape": 4,
       "metric": 2,
       "a": 0.30,
@@ -71,7 +71,7 @@
     },
     {
       "id": "q_cylinder_vol_01",
-      "prompt": "Calcule o volume do cilindro (r=0,10 m, h=0,30 m).",
+      "prompt": "Quanto cabe dentro desse tubo vermelho? (raio=10cm, altura=30cm)",
       "shape": 5,
       "metric": 2,
       "r": 0.10,
@@ -81,7 +81,7 @@
     },
     {
       "id": "q_sphere_vol_01",
-      "prompt": "Calcule o volume da esfera (r=0,12 m).",
+      "prompt": "Qual o volume dessa bola azul? (raio=12cm)",
       "shape": 6,
       "metric": 2,
       "r": 0.12,
@@ -90,4 +90,3 @@
     }
   ]
 }
-

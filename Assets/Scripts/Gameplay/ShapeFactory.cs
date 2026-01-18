@@ -110,7 +110,8 @@ namespace ARGeometryGame.Gameplay
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = "Rectangle";
             go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale = new Vector3(a, 0.02f, b);
+            // Increased thickness from 0.02f to 0.05f for better 3D visibility
+            go.transform.localScale = new Vector3(a, 0.05f, b);
             return go;
         }
 
@@ -118,7 +119,8 @@ namespace ARGeometryGame.Gameplay
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             go.name = "Circle";
-            go.transform.localScale = new Vector3(r * 2f, 0.005f, r * 2f);
+            // Increased thickness from 0.005f to 0.02f
+            go.transform.localScale = new Vector3(r * 2f, 0.02f, r * 2f);
             return go;
         }
 
@@ -139,7 +141,8 @@ namespace ARGeometryGame.Gameplay
             var under = c * c - cx * cx;
             var cz = under <= 0 ? 0 : Mathf.Sqrt(under);
 
-            var thickness = 0.02f;
+            // Increased thickness from 0.02f to 0.05f
+            var thickness = 0.05f;
             var v0 = new Vector3(ax, 0, az);
             var v1 = new Vector3(bx, 0, bz);
             var v2 = new Vector3(cx, 0, cz);
