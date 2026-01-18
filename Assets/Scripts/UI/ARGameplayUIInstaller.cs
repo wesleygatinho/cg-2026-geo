@@ -30,6 +30,8 @@ namespace ARGeometryGame.UI
             // Background panel to improve text readability over camera
             var bgGo = new GameObject("UIBackground");
             bgGo.transform.SetParent(root, false);
+            // Ensure background is behind other UI elements
+            bgGo.transform.SetAsFirstSibling();
             var bgImage = bgGo.AddComponent<UnityEngine.UI.Image>();
             bgImage.color = new Color(0f, 0f, 0f, 0.45f); // semi-transparent black
             var bgRt = bgGo.GetComponent<RectTransform>();
@@ -45,6 +47,9 @@ namespace ARGeometryGame.UI
             _prompt.rectTransform.offsetMax = Vector2.zero;
             _prompt.color = Color.white;
             _prompt.fontStyle = FontStyle.Bold;
+            var outlineP = _prompt.gameObject.AddComponent<UnityEngine.UI.Outline>();
+            outlineP.effectColor = Color.black;
+            outlineP.effectDistance = new Vector2(1f, -1f);
 
             _status = UIFactory.CreateText(root, "Status", "", 28, TextAnchor.UpperLeft);
             _status.rectTransform.anchorMin = new Vector2(0.05f, 0.63f);
@@ -52,6 +57,9 @@ namespace ARGeometryGame.UI
             _status.rectTransform.offsetMin = Vector2.zero;
             _status.rectTransform.offsetMax = Vector2.zero;
             _status.color = Color.white;
+            var outlineS = _status.gameObject.AddComponent<UnityEngine.UI.Outline>();
+            outlineS.effectColor = Color.black;
+            outlineS.effectDistance = new Vector2(1f, -1f);
 
             _feedback = UIFactory.CreateText(root, "Feedback", "", 30, TextAnchor.MiddleCenter);
             _feedback.rectTransform.anchorMin = new Vector2(0.05f, 0.52f);
@@ -60,6 +68,9 @@ namespace ARGeometryGame.UI
             _feedback.rectTransform.offsetMax = Vector2.zero;
             _feedback.color = Color.yellow;
             _feedback.fontStyle = FontStyle.Bold;
+            var outlineF = _feedback.gameObject.AddComponent<UnityEngine.UI.Outline>();
+            outlineF.effectColor = Color.black;
+            outlineF.effectDistance = new Vector2(1f, -1f);
 
             _answer = UIFactory.CreateInputField(root, "Answer", "Digite sua resposta...");
             var answerRt = _answer.GetComponent<RectTransform>();
