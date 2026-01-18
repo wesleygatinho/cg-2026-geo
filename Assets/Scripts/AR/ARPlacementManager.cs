@@ -69,6 +69,32 @@ namespace ARGeometryGame.AR
             return true;
         }
 
+        /// <summary>
+        /// Raycast na posição específica da tela (para usar posição do toque)
+        /// </summary>
+        public bool TryGetPlacementHitAtPosition(Vector2 screenPosition, out ARRaycastHit hit)
+        {
+            hit = default;
+
+            if (raycastManager == null)
+            {
+                raycastManager = FindAnyObjectByType<ARRaycastManager>();
+            }
+
+            if (raycastManager == null)
+            {
+                return false;
+            }
+
+            if (!raycastManager.Raycast(screenPosition, Hits, trackableTypes))
+            {
+                return false;
+            }
+
+            hit = Hits[0];
+            return true;
+        }
+
         public bool TryGetPlacementPose(out Pose pose)
         {
             if (TryGetPlacementHit(out var hit))
