@@ -123,7 +123,15 @@ namespace ARGeometryGame.AR
             _quad.localPosition = new Vector3(0f, 0f, distance);
             _quad.localRotation = Quaternion.Euler(0f, 0f, -_webcam.videoRotationAngle);
 
-            _quad.localScale = new Vector3(frustumWidth, frustumHeight, 1f);
+            var rotation = _webcam.videoRotationAngle;
+            if (rotation == 90 || rotation == 270)
+            {
+                _quad.localScale = new Vector3(frustumHeight, frustumWidth, 1f);
+            }
+            else
+            {
+                _quad.localScale = new Vector3(frustumWidth, frustumHeight, 1f);
+            }
         }
 
         private void UpdateMaterialUV()

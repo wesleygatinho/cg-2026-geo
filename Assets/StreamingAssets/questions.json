@@ -1,8 +1,8 @@
 {
   "questions": [
     {
-      "id": "q_rect_area_01",
-      "prompt": "Qual é a área do retângulo? (a = 0,30 m, b = 0,20 m)",
+      "id": "q_rect_area_easy_01",
+      "prompt": "Qual é a área desse retângulo? (largura=2m, altura=3m)",
       "shape": 0,
       "metric": 1,
       "a": 0.30,
@@ -11,8 +11,8 @@
       "unit": "m2"
     },
     {
-      "id": "q_rect_per_01",
-      "prompt": "Qual é o perímetro do retângulo? (a = 0,30 m, b = 0,20 m)",
+      "id": "q_rect_per_easy_01",
+      "prompt": "Qual o perímetro desse retângulo? (lados: 2m e 3m)",
       "shape": 0,
       "metric": 0,
       "a": 0.30,
@@ -21,19 +21,8 @@
       "unit": "m"
     },
     {
-      "id": "q_tri_area_01",
-      "prompt": "Qual é a área do triângulo? (a = 0,30 m, b = 0,40 m, c = 0,50 m) - triângulo 3-4-5",
-      "shape": 1,
-      "metric": 1,
-      "a": 0.30,
-      "b": 0.40,
-      "c": 0.50,
-      "tolerance": 0.001,
-      "unit": "m2"
-    },
-    {
-      "id": "q_tri_per_01",
-      "prompt": "Qual é o perímetro do triângulo? (a = 0,30 m, b = 0,40 m, c = 0,50 m)",
+      "id": "q_tri_per_easy_01",
+      "prompt": "Some os três lados desse triângulo! (3m, 4m, 5m)",
       "shape": 1,
       "metric": 0,
       "a": 0.30,
@@ -43,8 +32,8 @@
       "unit": "m"
     },
     {
-      "id": "q_circ_area_01",
-      "prompt": "Qual é a área do círculo? (r = 0,10 m)",
+      "id": "q_circ_area_easy_01",
+      "prompt": "Qual a área do círculo? (raio=1m) Use pi=3.14",
       "shape": 2,
       "metric": 1,
       "r": 0.10,
@@ -52,8 +41,8 @@
       "unit": "m2"
     },
     {
-      "id": "q_cube_vol_01",
-      "prompt": "Qual é o volume do cubo? (aresta a = 0,20 m)",
+      "id": "q_cube_vol_easy_01",
+      "prompt": "Qual o volume do cubo? (lado=2m)",
       "shape": 3,
       "metric": 2,
       "a": 0.20,
@@ -61,8 +50,18 @@
       "unit": "m3"
     },
     {
-      "id": "q_cuboid_vol_01",
-      "prompt": "Qual é o volume do paralelepípedo? (a = 0,30 m, b = 0,20 m, c = 0,10 m)",
+      "id": "q_cube_sa_easy_01",
+      "prompt": "Qual a área total do cubo? (lado=1m)",
+      "shape": 3,
+      "metric": 3,
+      "a": 0.25,
+      "tolerance": 0.001,
+      "unit": "m2"
+    },
+    {
+      "id": "q_cuboid_vol_easy_01",
+      "prompt": "Qual o volume da caixa? (1m x 2m x 3m)",
+
       "shape": 4,
       "metric": 2,
       "a": 0.30,
@@ -72,15 +71,24 @@
       "unit": "m3"
     },
     {
-      "id": "q_cylinder_vol_01",
-      "prompt": "Qual é o volume do cilindro? (r = 0,10 m, h = 0,30 m)",
+      "id": "q_cylinder_vol_easy_01",
+      "prompt": "Qual o volume do cilindro? (raio=1m, altura=2m) Use pi=3.14",
       "shape": 5,
       "metric": 2,
       "r": 0.10,
       "h": 0.30,
       "tolerance": 0.001,
       "unit": "m3"
+    },
+    {
+      "id": "q_sphere_vol_easy_01",
+      "prompt": "Qual o volume da esfera? (raio=1m) Use pi=3.14",
+      "shape": 6,
+      "metric": 3,
+      "r": 0.12,
+      "tolerance": 0.01,
+      "unit": "m2"
+
     }
   ]
 }
-

@@ -20,10 +20,12 @@ namespace ARGeometryGame.Gameplay
         [SerializeField] private ARPlaneVisibilityController planeVisibilityController;
         [SerializeField] private ARRaycastManager raycastManager;
 
+        private ARPlaneManager _planeManager;
         private readonly List<GeometryQuestion> _questions = new();
         private int _index;
         private Transform _anchorTransform;
         private GameObject _currentVisual;
+        private string _lastFeedback;
 
         public GeometryQuestion CurrentQuestion => _index >= 0 && _index < _questions.Count ? _questions[_index] : null;
         public int CurrentQuestionIndex => _index;
@@ -42,13 +44,49 @@ namespace ARGeometryGame.Gameplay
             {
                 TryPlaceFallback();
             }
+            // If not placed, try to place on tap
+            if (!HasPlacedObject)
+            {
+                if (!placementManager.TryGetPlacementPose(out var pose))
+                {
+                    return;
+                }
+
+                // In Fallback mode, we just use the pose from placement manager which simulates floor
+                // But we need to check if user TAPPED
+                
+                // ... wait, the code below checks for touch inside TryHandlePlacementTap.
+                // But TryHandlePlacementTap was previously calling ShouldUseFallbackPlacement.
+                // Let's refactor to use the Reticle + Tap flow.
+            }
         }
 
         private void Update()
         {
             if (!HasPlacedObject)
             {
+                // Always update hint if we are scanning
+                UpdatePlacementHint();
                 TryHandlePlacementTap();
+            }
+        }
+
+        private void UpdatePlacementHint()
+        {
+            if (HasPlacedObject) return;
+
+            string msg = "Aponte para o chão e toque para colocar o objeto.";
+            
+            // If AR is working and we have no planes
+            if (_planeManager != null && _planeManager.trackables.count == 0 && IsARReady())
+            {
+                msg = "Mova o celular para detectar o chão...";
+            }
+
+            if (_lastFeedback != msg)
+            {
+                _lastFeedback = msg;
+                FeedbackChanged?.Invoke(msg);
             }
         }
 
@@ -96,7 +134,8 @@ namespace ARGeometryGame.Gameplay
             if (!correct)
             {
                 var expected = GeometryAnswerValidator.ExpectedAnswer(q);
-                FeedbackChanged?.Invoke($"Incorreto. Tente novamente. (Dica: resultado ~ {expected:0.###} {q.unit})");
+                var formula = GeometryFormulaHelper.GetFormula(q.shape, q.metric);
+                FeedbackChanged?.Invoke($"Incorreto. {formula}\n(Dica: resultado ~ {expected:0.###} {q.unit})");
                 return;
             }
 
@@ -161,6 +200,11 @@ namespace ARGeometryGame.Gameplay
                 raycastManager = FindAnyObjectByType<ARRaycastManager>();
             }
 
+            if (_planeManager == null)
+            {
+                _planeManager = FindAnyObjectByType<ARPlaneManager>();
+            }
+
             var arSessionState = FindAnyObjectByType<ARSessionStateReporter>();
             if (arSessionState == null)
             {
@@ -192,24 +236,37 @@ namespace ARGeometryGame.Gameplay
                 return;
             }
 
-            if (ShouldUseFallbackPlacement())
-            {
-                TryPlaceFallback();
-                return;
-            }
-
-            if (!placementManager.TryGetPlacementPose(out var pose, out var trackableId))
+            // Check if pointer is over UI
+            if (UnityEngine.EventSystems.EventSystem.current != null && 
+                UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(touch.fingerId))
             {
                 return;
             }
 
-            var anchor = anchorPlacementManager.PlaceAnchor(pose, trackableId);
+            // Use the unified PlacementManager to get the pose (works for both AR and Fallback now)
+            if (!placementManager.TryGetPlacementPose(out var pose))
+            {
+                return;
+            }
+
+            // Create Anchor at the hit pose
+            // For fallback, we might not get a real trackableId, so we pass default
+            var anchor = anchorPlacementManager.PlaceAnchor(pose, default);
             if (anchor == null)
             {
-                return;
+                // If anchor creation failed (e.g. fallback mode often fails to create native anchors),
+                // just create a GameObject manually
+                 var go = new GameObject("Fallback Anchor");
+                 go.transform.position = pose.position;
+                 go.transform.rotation = pose.rotation;
+                 anchor = go.AddComponent<ARAnchor>(); // This might not work if AR is broken, but the transform is what matters
+                 _anchorTransform = go.transform;
+            }
+            else 
+            {
+                _anchorTransform = anchor.transform;
             }
 
-            _anchorTransform = anchor.transform;
             planeVisibilityController.SetPlanesVisible(false);
             UpdatePlacedVisual();
             FeedbackChanged?.Invoke("Objeto colocado. Responda a questão.");
@@ -263,7 +320,23 @@ namespace ARGeometryGame.Gameplay
                 flatForward = Vector3.forward;
             }
 
-            _anchorTransform.position = cam.transform.position + forward.normalized * 1.0f;
+            // ONLY set position if not already placed
+            if (_anchorTransform.parent == null && _anchorTransform.gameObject.scene.name != null) 
+            {
+                 // It's a scene object, maybe we shouldn't move it if it's already there?
+                 // Actually, if we are in fallback mode, we want to place it ONCE in front of the user
+                 // and then let the user move around it.
+            }
+            
+            // In fallback mode, we just want to spawn it at a fixed distance once.
+            // If it already exists, we do NOT move it to the camera again.
+            if (_currentVisual != null)
+            {
+                 FeedbackChanged?.Invoke("Objeto já colocado. Mova-se para vê-lo.");
+                 return;
+            }
+
+            _anchorTransform.position = cam.transform.position + forward.normalized * 1.5f;
             _anchorTransform.rotation = Quaternion.LookRotation(flatForward.normalized, Vector3.up);
 
             UpdatePlacedVisual();
@@ -293,6 +366,7 @@ namespace ARGeometryGame.Gameplay
             _currentVisual.transform.localPosition = Vector3.zero;
             _currentVisual.transform.localRotation = Quaternion.identity;
             _currentVisual.AddComponent<ARObjectManipulator>().Initialize(raycastManager, Camera.main);
+            _currentVisual.AddComponent<IdleRotator>();
         }
     }
 }

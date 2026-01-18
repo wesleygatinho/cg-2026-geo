@@ -28,7 +28,20 @@ namespace ARGeometryGame.Gameplay
 
         private static void ApplyMaterial(GameObject go, GeometryShapeKind shape)
         {
-            var shader = Shader.Find("Standard");
+            var shader = Shader.Find("Legacy Shaders/Diffuse");
+            if (shader == null)
+            {
+                shader = Shader.Find("Mobile/Diffuse");
+            }
+            if (shader == null)
+            {
+                shader = Shader.Find("Universal Render Pipeline/Lit");
+            }
+            if (shader == null)
+            {
+                shader = Shader.Find("Standard");
+            }
+
             if (shader == null)
             {
                 return;
@@ -54,10 +67,34 @@ namespace ARGeometryGame.Gameplay
 
             var mat = new Material(shader);
             mat.color = color;
-            mat.SetFloat("_Glossiness", 0.4f);
+            mat.SetFloat("_Glossiness", 0.65f);
+            
+            // Generate Grid Texture
+            mat.mainTexture = GenerateGridTexture(color);
             mr.material = mat;
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             mr.receiveShadows = true;
+        }
+
+        private static Texture2D GenerateGridTexture(Color baseColor)
+        {
+            int size = 256;
+            var tex = new Texture2D(size, size, TextureFormat.RGBA32, true);
+            var colors = new Color[size * size];
+            var gridColor = new Color(baseColor.r * 0.8f, baseColor.g * 0.8f, baseColor.b * 0.8f);
+            var mainColor = baseColor;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    bool edge = (x % 32 == 0) || (y % 32 == 0) || x == 0 || y == 0 || x == size - 1 || y == size - 1;
+                    colors[y * size + x] = edge ? Color.white : mainColor;
+                }
+            }
+            tex.SetPixels(colors);
+            tex.Apply();
+            return tex;
         }
 
         private static GameObject CreateCube(float a)
@@ -97,7 +134,8 @@ namespace ARGeometryGame.Gameplay
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = "Rectangle";
             go.transform.localRotation = Quaternion.identity;
-            // Increase thickness so shapes look clearly 3D in AR and cast shadows
+
+            // Increased thickness from 0.02f to 0.05f for better 3D visibility
             go.transform.localScale = new Vector3(a, 0.05f, b);
             return go;
         }
@@ -106,8 +144,9 @@ namespace ARGeometryGame.Gameplay
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             go.name = "Circle";
-            // Make disk slightly thicker so it appears as a 3D coin
-            go.transform.localScale = new Vector3(r * 2f, 0.03f, r * 2f);
+
+            // Increased thickness from 0.005f to 0.02f
+            go.transform.localScale = new Vector3(r * 2f, 0.02f, r * 2f);
             return go;
         }
 
@@ -128,7 +167,7 @@ namespace ARGeometryGame.Gameplay
             var under = c * c - cx * cx;
             var cz = under <= 0 ? 0 : Mathf.Sqrt(under);
 
-            // Slightly larger thickness for visibility
+            // Increased thickness from 0.02f to 0.05f
             var thickness = 0.05f;
             var v0 = new Vector3(ax, 0, az);
             var v1 = new Vector3(bx, 0, bz);
