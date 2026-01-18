@@ -22,7 +22,7 @@
 
 ## Descrição
 
-**AR Geometry Game** é um jogo educativo de geometria desenvolvido em Unity que utiliza Realidade Aumentada (ARCore) para criar uma experiência de aprendizado imersiva. O jogo permite que os jogadores visualizem formas geométricas 2D e 3D no mundo real através da câmera do dispositivo Android e resolvam questões relacionadas a cálculos de área, perímetro, volume e área total.
+**GeoAR** é um jogo educativo de geometria desenvolvido em Unity que utiliza Realidade Aumentada (ARCore) para criar uma experiência de aprendizado imersiva. O jogo permite que os jogadores visualizem formas geométricas 2D e 3D no mundo real através da câmera do dispositivo Android e resolvam questões relacionadas a cálculos de área, perímetro, volume e área total.
 
 A aplicação oferece uma forma interativa e inovadora de aprender conceitos geométricos, combinando visualização espacial com desafios matemáticos em um ambiente de realidade aumentada.
 
