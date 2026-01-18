@@ -54,6 +54,10 @@ namespace ARGeometryGame.Gameplay
             {
                 _selected = HitThisObject(touch.position);
                 _lastTouch0 = touch.position;
+                if (_selected)
+                {
+                    GetComponent<IdleRotator>()?.SetInteracting(true);
+                }
                 return;
             }
 
@@ -89,14 +93,19 @@ namespace ARGeometryGame.Gameplay
             if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
             {
                 _selected = false;
+                GetComponent<IdleRotator>()?.SetInteracting(false);
             }
         }
 
         private void HandleTwoTouches(Touch t0, Touch t1)
         {
-            if (!_selected && (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began))
+            if (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began)
             {
                 _selected = HitThisObject(t0.position) || HitThisObject(t1.position);
+                if (_selected)
+                {
+                    GetComponent<IdleRotator>()?.SetInteracting(true);
+                }
             }
 
             if (!_selected)
@@ -131,6 +140,7 @@ namespace ARGeometryGame.Gameplay
             if (t0.phase == TouchPhase.Ended || t1.phase == TouchPhase.Ended || t0.phase == TouchPhase.Canceled || t1.phase == TouchPhase.Canceled)
             {
                 _selected = false;
+                GetComponent<IdleRotator>()?.SetInteracting(false);
             }
         }
 

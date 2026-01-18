@@ -68,9 +68,34 @@ namespace ARGeometryGame.Gameplay
             var mat = new Material(shader);
             mat.color = color;
             mat.SetFloat("_Glossiness", 0.65f);
+            
+            // Generate Grid Texture
+            mat.mainTexture = GenerateGridTexture(color);
+
             mr.material = mat;
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             mr.receiveShadows = true;
+        }
+
+        private static Texture2D GenerateGridTexture(Color baseColor)
+        {
+            int size = 256;
+            var tex = new Texture2D(size, size, TextureFormat.RGBA32, true);
+            var colors = new Color[size * size];
+            var gridColor = new Color(baseColor.r * 0.8f, baseColor.g * 0.8f, baseColor.b * 0.8f);
+            var mainColor = baseColor;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    bool edge = (x % 32 == 0) || (y % 32 == 0) || x == 0 || y == 0 || x == size - 1 || y == size - 1;
+                    colors[y * size + x] = edge ? Color.white : mainColor;
+                }
+            }
+            tex.SetPixels(colors);
+            tex.Apply();
+            return tex;
         }
 
         private static GameObject CreateCube(float a)

@@ -366,6 +366,7 @@ namespace ARGeometryGame.Gameplay
             _currentVisual.transform.localPosition = Vector3.zero;
             _currentVisual.transform.localRotation = Quaternion.identity;
             _currentVisual.AddComponent<ARObjectManipulator>().Initialize(raycastManager, Camera.main);
+            _currentVisual.AddComponent<IdleRotator>();
         }
     }
 }
