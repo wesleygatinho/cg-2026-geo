@@ -54,7 +54,7 @@ namespace ARGeometryGame.Gameplay
 
             var mat = new Material(shader);
             mat.color = color;
-            mat.SetFloat("_Glossiness", 0.65f);
+            mat.SetFloat("_Glossiness", 0.4f);
             mr.material = mat;
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             mr.receiveShadows = true;
@@ -97,7 +97,8 @@ namespace ARGeometryGame.Gameplay
             var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             go.name = "Rectangle";
             go.transform.localRotation = Quaternion.identity;
-            go.transform.localScale = new Vector3(a, 0.02f, b);
+            // Increase thickness so shapes look clearly 3D in AR and cast shadows
+            go.transform.localScale = new Vector3(a, 0.05f, b);
             return go;
         }
 
@@ -105,7 +106,8 @@ namespace ARGeometryGame.Gameplay
         {
             var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
             go.name = "Circle";
-            go.transform.localScale = new Vector3(r * 2f, 0.005f, r * 2f);
+            // Make disk slightly thicker so it appears as a 3D coin
+            go.transform.localScale = new Vector3(r * 2f, 0.03f, r * 2f);
             return go;
         }
 
@@ -126,7 +128,8 @@ namespace ARGeometryGame.Gameplay
             var under = c * c - cx * cx;
             var cz = under <= 0 ? 0 : Mathf.Sqrt(under);
 
-            var thickness = 0.02f;
+            // Slightly larger thickness for visibility
+            var thickness = 0.05f;
             var v0 = new Vector3(ax, 0, az);
             var v1 = new Vector3(bx, 0, bz);
             var v2 = new Vector3(cx, 0, cz);
@@ -148,7 +151,10 @@ namespace ARGeometryGame.Gameplay
 
             mf.sharedMesh = mesh;
             go.transform.localRotation = Quaternion.identity;
-            go.AddComponent<MeshCollider>().sharedMesh = mesh;
+            var mc = go.AddComponent<MeshCollider>();
+            mc.sharedMesh = mesh;
+            // convex helps physics interactions on simple shapes
+            mc.convex = true;
             return go;
         }
     }
