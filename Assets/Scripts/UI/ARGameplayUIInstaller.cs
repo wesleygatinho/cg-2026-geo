@@ -14,6 +14,8 @@ namespace ARGeometryGame.UI
         private Text _status;
         private InputField _answer;
         private Text _feedback;
+        private Button _togglePlanesButton;
+        private Text _togglePlanesLabel;
 
         private ARGameplayQuizController _quiz;
         private ARSessionState _arState;
@@ -25,51 +27,63 @@ namespace ARGeometryGame.UI
             var canvas = UIFactory.EnsureCanvas("UI");
             var root = canvas.GetComponent<RectTransform>();
 
-            _prompt = UIFactory.CreateText(root, "Prompt", "Carregando...", 34, TextAnchor.UpperLeft);
-            _prompt.rectTransform.anchorMin = new Vector2(0.05f, 0.72f);
-            _prompt.rectTransform.anchorMax = new Vector2(0.95f, 0.95f);
+            // === ÁREA SUPERIOR: Prompt da questão ===
+            _prompt = UIFactory.CreateText(root, "Prompt", "🎮 Carregando...", 40, TextAnchor.UpperLeft);
+            _prompt.fontStyle = FontStyle.Bold;
+            _prompt.rectTransform.anchorMin = new Vector2(0.03f, 0.75f);
+            _prompt.rectTransform.anchorMax = new Vector2(0.97f, 0.96f);
             _prompt.rectTransform.offsetMin = Vector2.zero;
             _prompt.rectTransform.offsetMax = Vector2.zero;
 
-            _status = UIFactory.CreateText(root, "Status", "", 28, TextAnchor.UpperLeft);
-            _status.rectTransform.anchorMin = new Vector2(0.05f, 0.63f);
-            _status.rectTransform.anchorMax = new Vector2(0.95f, 0.72f);
+            // === Status AR (menor, para debug) ===
+            _status = UIFactory.CreateText(root, "Status", "", 22, TextAnchor.UpperLeft);
+            _status.color = new Color(1f, 1f, 1f, 0.7f);
+            _status.rectTransform.anchorMin = new Vector2(0.03f, 0.67f);
+            _status.rectTransform.anchorMax = new Vector2(0.97f, 0.75f);
             _status.rectTransform.offsetMin = Vector2.zero;
             _status.rectTransform.offsetMax = Vector2.zero;
 
-            _feedback = UIFactory.CreateText(root, "Feedback", "", 30, TextAnchor.MiddleCenter);
-            _feedback.rectTransform.anchorMin = new Vector2(0.05f, 0.52f);
-            _feedback.rectTransform.anchorMax = new Vector2(0.95f, 0.63f);
+            // === Feedback (correto/incorreto) ===
+            _feedback = UIFactory.CreateText(root, "Feedback", "", 36, TextAnchor.MiddleCenter);
+            _feedback.fontStyle = FontStyle.Bold;
+            _feedback.rectTransform.anchorMin = new Vector2(0.03f, 0.55f);
+            _feedback.rectTransform.anchorMax = new Vector2(0.97f, 0.67f);
             _feedback.rectTransform.offsetMin = Vector2.zero;
             _feedback.rectTransform.offsetMax = Vector2.zero;
 
-            _answer = UIFactory.CreateInputField(root, "Answer", "Digite sua resposta...");
+            // === Campo de resposta - COMPACTO ===
+            _answer = UIFactory.CreateInputField(root, "Answer", "✏️ Digite sua resposta...");
             var answerRt = _answer.GetComponent<RectTransform>();
-            answerRt.anchorMin = new Vector2(0.05f, 0.40f);
-            answerRt.anchorMax = new Vector2(0.95f, 0.50f);
+            answerRt.anchorMin = new Vector2(0.05f, 0.18f);
+            answerRt.anchorMax = new Vector2(0.95f, 0.25f);
             answerRt.offsetMin = Vector2.zero;
             answerRt.offsetMax = Vector2.zero;
 
-            var submit = UIFactory.CreateButton(root, "Submit", "Responder", () => _quiz.SubmitAnswer(_answer.text));
+            // === BOTÕES COMPACTOS E ELEGANTES ===
+            // Botão Responder - Verde (menor e mais embaixo)
+            var submit = UIFactory.CreateButton(root, "Submit", "✅ Responder", () => _quiz.SubmitAnswer(_answer.text), UIFactory.ColorSuccess);
             var submitRt = submit.GetComponent<RectTransform>();
-            submitRt.anchorMin = new Vector2(0.05f, 0.26f);
-            submitRt.anchorMax = new Vector2(0.48f, 0.37f);
+            submitRt.anchorMin = new Vector2(0.05f, 0.10f);
+            submitRt.anchorMax = new Vector2(0.32f, 0.17f);
             submitRt.offsetMin = Vector2.zero;
             submitRt.offsetMax = Vector2.zero;
 
-            var skip = UIFactory.CreateButton(root, "Skip", "Pular", () => _quiz.SkipQuestion());
+            // Botão Pular - Laranja (menor)
+            var skip = UIFactory.CreateButton(root, "Skip", "⏭️ Pular", () => _quiz.SkipQuestion(), UIFactory.ColorWarning);
             var skipRt = skip.GetComponent<RectTransform>();
-            skipRt.anchorMin = new Vector2(0.52f, 0.26f);
-            skipRt.anchorMax = new Vector2(0.95f, 0.37f);
+            skipRt.anchorMin = new Vector2(0.34f, 0.10f);
+            skipRt.anchorMax = new Vector2(0.61f, 0.17f);
             skipRt.offsetMin = Vector2.zero;
             skipRt.offsetMax = Vector2.zero;
 
-            var planes = UIFactory.CreateButton(root, "Planes", "Mostrar/Esconder Planos", () => _quiz.TogglePlanes());
-            var planesRt = planes.GetComponent<RectTransform>();
-            planesRt.anchorMin = new Vector2(0.05f, 0.12f);
-            planesRt.anchorMax = new Vector2(0.95f, 0.23f);
+            // Botão Mostrar/Esconder Planos - Azul (menor)
+            _togglePlanesButton = UIFactory.CreateButton(root, "Planes", "👁️ Planos", OnTogglePlanes, UIFactory.ColorPrimary);
+            var planesRt = _togglePlanesButton.GetComponent<RectTransform>();
+            planesRt.anchorMin = new Vector2(0.63f, 0.10f);
+            planesRt.anchorMax = new Vector2(0.95f, 0.17f);
             planesRt.offsetMin = Vector2.zero;
             planesRt.offsetMax = Vector2.zero;
+            _togglePlanesLabel = _togglePlanesButton.GetComponentInChildren<Text>();
 
             HookQuiz();
         }
@@ -117,6 +131,36 @@ namespace ARGeometryGame.UI
         private void HandleFeedback(string msg)
         {
             _feedback.text = msg ?? "";
+            
+            // Colorir feedback baseado no conteúdo
+            if (msg != null && msg.Contains("Correto"))
+            {
+                _feedback.color = UIFactory.ColorSuccess;
+            }
+            else if (msg != null && msg.Contains("Incorreto"))
+            {
+                _feedback.color = UIFactory.ColorDanger;
+            }
+            else
+            {
+                _feedback.color = Color.white;
+            }
+        }
+
+        private bool _planesVisible = true;
+
+        private void OnTogglePlanes()
+        {
+            if (_quiz == null) return;
+            
+            _planesVisible = !_planesVisible;
+            _quiz.TogglePlanes();
+            
+            // Atualiza texto do botão
+            if (_togglePlanesLabel != null)
+            {
+                _togglePlanesLabel.text = _planesVisible ? "🙈 Esconder Planos" : "👁️ Mostrar Planos";
+            }
         }
 
         private string BuildStatusText(int index, int total)
