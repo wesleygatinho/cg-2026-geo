@@ -1,4 +1,4 @@
-# AR Geometry Game - Jogo de Geometria em Realidade Aumentada
+# GeoAR - Jogo de Geometria em Realidade Aumentada
 
 ## Sumário
 - [Descrição](#descrição)
