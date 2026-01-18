@@ -41,26 +41,48 @@ namespace ARGeometryGame.UI
             return uiText;
         }
 
+        // Cores vibrantes para crianças
+        public static readonly Color ColorPrimary = new Color(0.2f, 0.6f, 0.95f, 1f);    // Azul vibrante
+        public static readonly Color ColorSuccess = new Color(0.18f, 0.8f, 0.44f, 1f);   // Verde esmeralda  
+        public static readonly Color ColorWarning = new Color(1f, 0.58f, 0f, 1f);        // Laranja quente
+        public static readonly Color ColorDanger = new Color(0.91f, 0.3f, 0.24f, 1f);    // Vermelho suave
+
         public static Button CreateButton(Transform parent, string name, string label, UnityAction onClick)
+        {
+            return CreateButton(parent, name, label, onClick, ColorPrimary);
+        }
+
+        public static Button CreateButton(Transform parent, string name, string label, UnityAction onClick, Color bgColor)
         {
             var go = new GameObject(name);
             go.transform.SetParent(parent, false);
 
             var image = go.AddComponent<Image>();
-            image.color = new Color(0.15f, 0.15f, 0.15f, 0.9f);
+            image.color = bgColor;
 
             var button = go.AddComponent<Button>();
+            
+            // Efeito de press para feedback visual elegante
+            var colors = button.colors;
+            colors.normalColor = Color.white;
+            colors.highlightedColor = new Color(0.95f, 0.95f, 0.95f, 1f);
+            colors.pressedColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+            colors.selectedColor = Color.white;
+            button.colors = colors;
+            
             if (onClick != null)
             {
                 button.onClick.AddListener(onClick);
             }
 
-            var text = CreateText(go.transform, "Label", label, 34, TextAnchor.MiddleCenter);
+            // Fonte menor para botões compactos
+            var text = CreateText(go.transform, "Label", label, 28, TextAnchor.MiddleCenter);
+            text.fontStyle = FontStyle.Bold;
             var rt = text.rectTransform;
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
-            rt.offsetMin = Vector2.zero;
-            rt.offsetMax = Vector2.zero;
+            rt.offsetMin = new Vector2(4, 2);
+            rt.offsetMax = new Vector2(-4, -2);
 
             return button;
         }

@@ -90,6 +90,8 @@ namespace ARGeometryGame.Gameplay
             }
         }
 
+        private bool _planesVisible = true;
+
         public void TogglePlanes()
         {
             if (planeVisibilityController == null)
@@ -97,21 +99,9 @@ namespace ARGeometryGame.Gameplay
                 return;
             }
 
-            var anyPlaneActive = false;
-            var planeManager = FindAnyObjectByType<ARPlaneManager>();
-            if (planeManager != null)
-            {
-                foreach (var p in planeManager.trackables)
-                {
-                    if (p != null && p.gameObject.activeSelf)
-                    {
-                        anyPlaneActive = true;
-                        break;
-                    }
-                }
-            }
-
-            planeVisibilityController.SetPlanesVisible(!anyPlaneActive);
+            // Toggle usando estado interno em vez de verificar planos
+            _planesVisible = !_planesVisible;
+            planeVisibilityController.SetPlanesVisible(_planesVisible);
         }
 
         public void SubmitAnswer(string raw)
@@ -243,33 +233,40 @@ namespace ARGeometryGame.Gameplay
                 return;
             }
 
-            // Use the unified PlacementManager to get the pose (works for both AR and Fallback now)
-            if (!placementManager.TryGetPlacementPose(out var pose))
+            // Usar posição do toque para raycast (não centro da tela)
+            var touchPosition = touch.position;
+            
+            // Tentar raycast na posição do toque primeiro (AR mode)
+            if (placementManager.TryGetPlacementHitAtPosition(touchPosition, out var hit))
             {
-                return;
+                // AR funcionando - usar o hit com pose e trackableId corretos
+                var pose = hit.pose;
+                var trackableId = hit.trackableId;
+                
+                // Criar âncora ANEXADA ao plano detectado para ficar fixa no mundo real
+                var anchor = anchorPlacementManager.PlaceAnchor(pose, trackableId);
+                if (anchor != null)
+                {
+                    _anchorTransform = anchor.transform;
+                    planeVisibilityController.SetPlanesVisible(false);
+                    UpdatePlacedVisual();
+                    FeedbackChanged?.Invoke("✅ Objeto fixo no plano! Responda a questão.");
+                    return;
+                }
             }
-
-            // Create Anchor at the hit pose
-            // For fallback, we might not get a real trackableId, so we pass default
-            var anchor = anchorPlacementManager.PlaceAnchor(pose, default);
-            if (anchor == null)
+            
+            // Fallback: usar pose do centro da tela se raycast de toque falhar
+            if (placementManager.TryGetPlacementPose(out var fallbackPose))
             {
-                // If anchor creation failed (e.g. fallback mode often fails to create native anchors),
-                // just create a GameObject manually
-                 var go = new GameObject("Fallback Anchor");
-                 go.transform.position = pose.position;
-                 go.transform.rotation = pose.rotation;
-                 anchor = go.AddComponent<ARAnchor>(); // This might not work if AR is broken, but the transform is what matters
-                 _anchorTransform = go.transform;
+                var go = new GameObject("Fallback Anchor");
+                go.transform.position = fallbackPose.position;
+                go.transform.rotation = fallbackPose.rotation;
+                _anchorTransform = go.transform;
+                
+                planeVisibilityController.SetPlanesVisible(false);
+                UpdatePlacedVisual();
+                FeedbackChanged?.Invoke("📍 Objeto colocado (modo câmera). Responda a questão.");
             }
-            else 
-            {
-                _anchorTransform = anchor.transform;
-            }
-
-            planeVisibilityController.SetPlanesVisible(false);
-            UpdatePlacedVisual();
-            FeedbackChanged?.Invoke("Objeto colocado. Responda a questão.");
         }
 
         private bool ShouldUseFallbackPlacement()
