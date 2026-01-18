@@ -20,10 +20,12 @@ namespace ARGeometryGame.Gameplay
         [SerializeField] private ARPlaneVisibilityController planeVisibilityController;
         [SerializeField] private ARRaycastManager raycastManager;
 
+        private ARPlaneManager _planeManager;
         private readonly List<GeometryQuestion> _questions = new();
         private int _index;
         private Transform _anchorTransform;
         private GameObject _currentVisual;
+        private string _lastFeedback;
 
         public GeometryQuestion CurrentQuestion => _index >= 0 && _index < _questions.Count ? _questions[_index] : null;
         public int CurrentQuestionIndex => _index;
@@ -42,13 +44,42 @@ namespace ARGeometryGame.Gameplay
             {
                 TryPlaceFallback();
             }
+            else if (!HasPlacedObject)
+            {
+                UpdatePlacementHint();
+            }
         }
 
         private void Update()
         {
             if (!HasPlacedObject)
             {
+                if (!ShouldUseFallbackPlacement())
+                {
+                    UpdatePlacementHint();
+                }
                 TryHandlePlacementTap();
+            }
+        }
+
+        private void UpdatePlacementHint()
+        {
+            if (_planeManager == null) return;
+            
+            string msg;
+            if (_planeManager.trackables.count == 0)
+            {
+                msg = "Mova o dispositivo lentamente para detectar o chão.";
+            }
+            else
+            {
+                msg = "Toque nos pontos ou no plano detectado para colocar o objeto.";
+            }
+
+            if (_lastFeedback != msg)
+            {
+                _lastFeedback = msg;
+                FeedbackChanged?.Invoke(msg);
             }
         }
 
@@ -96,7 +127,8 @@ namespace ARGeometryGame.Gameplay
             if (!correct)
             {
                 var expected = GeometryAnswerValidator.ExpectedAnswer(q);
-                FeedbackChanged?.Invoke($"Incorreto. Tente novamente. (Dica: resultado ~ {expected:0.###} {q.unit})");
+                var formula = GeometryFormulaHelper.GetFormula(q.shape, q.metric);
+                FeedbackChanged?.Invoke($"Incorreto. {formula}\n(Dica: resultado ~ {expected:0.###} {q.unit})");
                 return;
             }
 
@@ -159,6 +191,11 @@ namespace ARGeometryGame.Gameplay
             if (raycastManager == null)
             {
                 raycastManager = FindAnyObjectByType<ARRaycastManager>();
+            }
+
+            if (_planeManager == null)
+            {
+                _planeManager = FindAnyObjectByType<ARPlaneManager>();
             }
 
             var arSessionState = FindAnyObjectByType<ARSessionStateReporter>();

@@ -28,7 +28,20 @@ namespace ARGeometryGame.Gameplay
 
         private static void ApplyMaterial(GameObject go, GeometryShapeKind shape)
         {
-            var shader = Shader.Find("Standard");
+            var shader = Shader.Find("Legacy Shaders/Diffuse");
+            if (shader == null)
+            {
+                shader = Shader.Find("Mobile/Diffuse");
+            }
+            if (shader == null)
+            {
+                shader = Shader.Find("Universal Render Pipeline/Lit");
+            }
+            if (shader == null)
+            {
+                shader = Shader.Find("Standard");
+            }
+
             if (shader == null)
             {
                 return;

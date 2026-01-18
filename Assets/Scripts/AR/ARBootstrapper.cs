@@ -88,6 +88,15 @@ namespace ARGeometryGame.AR
 
             _availabilityChecked = true;
 
+            // Force try initialize loader if null
+            if (XRGeneralSettings.Instance != null && 
+                XRGeneralSettings.Instance.Manager != null && 
+                XRGeneralSettings.Instance.Manager.activeLoader == null)
+            {
+                 Debug.Log("Attempting to force initialize XR Loader...");
+                 yield return XRGeneralSettings.Instance.Manager.InitializeLoader();
+            }
+
             yield return ARSession.CheckAvailability();
             if (ARSession.state == ARSessionState.NeedsInstall)
             {
@@ -290,11 +299,12 @@ namespace ARGeometryGame.AR
             var shouldFallback =
                 loader == null ||
                 arState == ARSessionState.Unsupported ||
-                (arState == ARSessionState.None && _startupTimer > 3f);
+                (arState == ARSessionState.None && _startupTimer > 8f);
 
             var shouldDisableFallback =
                 arState == ARSessionState.SessionInitializing ||
-                arState == ARSessionState.SessionTracking;
+                arState == ARSessionState.SessionTracking ||
+                arState == ARSessionState.Installing;
 
             if (shouldDisableFallback)
             {
