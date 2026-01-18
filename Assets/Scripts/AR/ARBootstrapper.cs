@@ -171,6 +171,7 @@ namespace ARGeometryGame.AR
             var camera = camGo.AddComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = Color.black;
+            camera.orthographic = false; // Force Perspective for 3D
             camGo.AddComponent<AudioListener>();
             var fallbackControls = camGo.AddComponent<FallbackCameraController>();
             fallbackControls.enabled = false;

@@ -300,7 +300,23 @@ namespace ARGeometryGame.Gameplay
                 flatForward = Vector3.forward;
             }
 
-            _anchorTransform.position = cam.transform.position + forward.normalized * 1.0f;
+            // ONLY set position if not already placed
+            if (_anchorTransform.parent == null && _anchorTransform.gameObject.scene.name != null) 
+            {
+                 // It's a scene object, maybe we shouldn't move it if it's already there?
+                 // Actually, if we are in fallback mode, we want to place it ONCE in front of the user
+                 // and then let the user move around it.
+            }
+            
+            // In fallback mode, we just want to spawn it at a fixed distance once.
+            // If it already exists, we do NOT move it to the camera again.
+            if (_currentVisual != null)
+            {
+                 FeedbackChanged?.Invoke("Objeto já colocado. Mova-se para vê-lo.");
+                 return;
+            }
+
+            _anchorTransform.position = cam.transform.position + forward.normalized * 1.5f;
             _anchorTransform.rotation = Quaternion.LookRotation(flatForward.normalized, Vector3.up);
 
             UpdatePlacedVisual();

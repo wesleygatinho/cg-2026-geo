@@ -50,7 +50,10 @@ namespace ARGeometryGame.AR
                 // Remap: Gyro right-handed to Unity left-handed
                 var rot = new Quaternion(attitude.x, attitude.y, -attitude.z, -attitude.w);
                 // Rotate 90 degrees around X to match landscape orientation usually
-                transform.localRotation = Quaternion.Euler(90, 0, 0) * rot;
+                // And we must rotate the camera, NOT the parent if possible, but here we are on the camera object.
+                // However, we need to ensure we are rotating in World Space relative to the initial forward.
+                
+                transform.rotation = Quaternion.Euler(90, 0, 0) * rot;
             }
             else
             {
