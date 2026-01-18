@@ -68,7 +68,7 @@ A aplicação oferece uma forma interativa e inovadora de aprender conceitos geo
 1. Clone ou baixe este repositório:
    ```bash
    git clone https://github.com/wesleygatinho/cg-2026-geo.git
-   cd ar-geometry-game
+   cd cg-2026-geo
    ```
 
 2. Abra o Unity Hub e clique em **Add > Add project from disk**
