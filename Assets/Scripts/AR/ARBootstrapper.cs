@@ -192,6 +192,18 @@ namespace ARGeometryGame.AR
             var planeManager = EnsureComponent<ARPlaneManager>(originGo);
             planeManager.enabled = enablePlaneDetection;
 
+            // Adicionar controller de material para planos transparentes
+            if (!originGo.TryGetComponent<ARPlaneMaterialController>(out _))
+            {
+                originGo.AddComponent<ARPlaneMaterialController>();
+            }
+
+            // Desabilitar linhas vermelhas do XR Interaction Toolkit
+            if (!originGo.TryGetComponent<XRLineDisabler>(out _))
+            {
+                originGo.AddComponent<XRLineDisabler>();
+            }
+
             EnsureComponent<ARAnchorManager>(originGo);
             EnsureComponent<ARPointCloudManager>(originGo);
         }

@@ -10,6 +10,10 @@ namespace ARGeometryGame.AR
         [SerializeField] private ARRaycastManager raycastManager;
         [SerializeField] private Camera arCamera;
         [SerializeField] private TrackableType trackableTypes = TrackableType.PlaneWithinPolygon;
+        
+        /// <summary>
+        /// Garante que só detectamos planos (chão, mesas, etc) e não outros trackables
+        /// </summary>
 
         private static readonly List<ARRaycastHit> Hits = new();
 
