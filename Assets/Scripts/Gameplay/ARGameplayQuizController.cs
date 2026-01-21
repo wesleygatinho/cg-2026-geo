@@ -262,6 +262,8 @@ namespace ARGeometryGame.Gameplay
                 go.transform.position = fallbackPose.position;
                 go.transform.rotation = fallbackPose.rotation;
                 _anchorTransform = go.transform;
+                // Adicionar componente para seguir a câmera no modo fallback
+                var follower = go.AddComponent<CameraFollower>();
                 
                 planeVisibilityController.SetPlanesVisible(false);
                 UpdatePlacedVisual();
@@ -308,6 +310,8 @@ namespace ARGeometryGame.Gameplay
             {
                 var go = new GameObject("Fallback Anchor");
                 _anchorTransform = go.transform;
+                // Adicionar componente para seguir a câmera
+                var follower = go.AddComponent<CameraFollower>();
             }
 
             var forward = cam.transform.forward;

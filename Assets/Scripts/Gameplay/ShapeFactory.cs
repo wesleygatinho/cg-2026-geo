@@ -90,7 +90,8 @@ namespace ARGeometryGame.Gameplay
                 for (int x = 0; x < size; x++)
                 {
                     bool edge = (x % 32 == 0) || (y % 32 == 0) || x == 0 || y == 0 || x == size - 1 || y == size - 1;
-                    colors[y * size + x] = edge ? Color.white : mainColor;
+                    // Usar cor do grid (mais escura) ao invés de branco para evitar linhas vermelhas
+                    colors[y * size + x] = edge ? gridColor : mainColor;
                 }
             }
             tex.SetPixels(colors);
