@@ -21,6 +21,8 @@ namespace ARGeometryGame.Geometry
         {
             var expected = GeometryCalculator.Compute(q);
             var tol = q == null ? 0 : Math.Max(0d, q.tolerance);
+            // Aceita respostas dentro da margem de erro (tolerance)
+            // Para respostas inteiras, a tolerância é aumentada automaticamente
             return Math.Abs(expected - userAnswer) <= tol;
         }
 

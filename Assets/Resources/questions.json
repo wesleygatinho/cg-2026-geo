@@ -7,9 +7,9 @@
       "metric": 1,
       "a": 2.0,
       "b": 3.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m2",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_rect_per_kids_01",
@@ -18,9 +18,9 @@
       "metric": 0,
       "a": 2.0,
       "b": 1.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_rect_area_kids_02",
@@ -29,9 +29,9 @@
       "metric": 1,
       "a": 1.0,
       "b": 2.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m2",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_rect_per_kids_02",
@@ -40,9 +40,9 @@
       "metric": 0,
       "a": 4.0,
       "b": 5.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_tri_per_kids_01",
@@ -52,9 +52,9 @@
       "a": 3.0,
       "b": 4.0,
       "c": 5.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_tri_per_kids_02",
@@ -64,9 +64,9 @@
       "a": 2.0,
       "b": 2.0,
       "c": 3.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_circ_area_kids_01",
@@ -74,9 +74,9 @@
       "shape": 2,
       "metric": 1,
       "r": 1.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m2",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_circ_area_kids_02",
@@ -84,9 +84,9 @@
       "shape": 2,
       "metric": 1,
       "r": 2.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m2",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_cube_vol_kids_01",
@@ -94,9 +94,9 @@
       "shape": 3,
       "metric": 2,
       "a": 1.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_cube_vol_kids_02",
@@ -104,9 +104,9 @@
       "shape": 3,
       "metric": 2,
       "a": 2.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_cube_sa_kids_01",
@@ -114,9 +114,9 @@
       "shape": 3,
       "metric": 3,
       "a": 1.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m2",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_cuboid_vol_kids_01",
@@ -126,9 +126,9 @@
       "a": 1.0,
       "b": 2.0,
       "c": 3.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_cuboid_vol_kids_02",
@@ -138,9 +138,9 @@
       "a": 2.0,
       "b": 4.0,
       "c": 1.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_cylinder_vol_kids_01",
@@ -149,9 +149,9 @@
       "metric": 2,
       "r": 1.0,
       "h": 2.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_cylinder_vol_kids_02",
@@ -160,9 +160,9 @@
       "metric": 2,
       "r": 1.0,
       "h": 3.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_sphere_vol_kids_01",
@@ -170,9 +170,9 @@
       "shape": 6,
       "metric": 2,
       "r": 1.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_sphere_vol_kids_02",
@@ -180,9 +180,9 @@
       "shape": 6,
       "metric": 2,
       "r": 2.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m3",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_rect_area_kids_03",
@@ -191,9 +191,9 @@
       "metric": 1,
       "a": 3.0,
       "b": 4.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m2",
-      "visualScale": 0.1
+      "visualScale": 0.5
     },
     {
       "id": "q_circ_area_kids_03",
@@ -201,9 +201,9 @@
       "shape": 2,
       "metric": 1,
       "r": 3.0,
-      "tolerance": 0.1,
+      "tolerance": 0.5,
       "unit": "m2",
-      "visualScale": 0.1
+      "visualScale": 0.5
     }
   ]
 }
