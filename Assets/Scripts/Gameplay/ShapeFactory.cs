@@ -81,7 +81,7 @@ namespace ARGeometryGame.Gameplay
             int size = 256;
             var tex = new Texture2D(size, size, TextureFormat.RGBA32, true);
             var colors = new Color[size * size];
-            var gridColor = new Color(baseColor.r * 0.8f, baseColor.g * 0.8f, baseColor.b * 0.8f);
+            var gridColor = new Color(baseColor.r * 0.7f, baseColor.g * 0.7f, baseColor.b * 0.7f);
             var mainColor = baseColor;
 
             for (int y = 0; y < size; y++)
@@ -89,7 +89,8 @@ namespace ARGeometryGame.Gameplay
                 for (int x = 0; x < size; x++)
                 {
                     bool edge = (x % 32 == 0) || (y % 32 == 0) || x == 0 || y == 0 || x == size - 1 || y == size - 1;
-                    colors[y * size + x] = edge ? Color.white : mainColor;
+                    // Usar cor do grid (mais escura) ao invés de branco para evitar linhas vermelhas
+                    colors[y * size + x] = edge ? gridColor : mainColor;
                 }
             }
             tex.SetPixels(colors);

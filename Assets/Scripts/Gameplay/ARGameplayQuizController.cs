@@ -262,6 +262,8 @@ namespace ARGeometryGame.Gameplay
                 go.transform.position = fallbackPose.position;
                 go.transform.rotation = fallbackPose.rotation;
                 _anchorTransform = go.transform;
+                // Adicionar componente para seguir a câmera no modo fallback
+                var follower = go.AddComponent<CameraFollower>();
                 
                 planeVisibilityController.SetPlanesVisible(false);
                 UpdatePlacedVisual();
@@ -308,6 +310,8 @@ namespace ARGeometryGame.Gameplay
             {
                 var go = new GameObject("Fallback Anchor");
                 _anchorTransform = go.transform;
+                // Adicionar componente para seguir a câmera
+                var follower = go.AddComponent<CameraFollower>();
             }
 
             var forward = cam.transform.forward;
@@ -317,19 +321,11 @@ namespace ARGeometryGame.Gameplay
                 flatForward = Vector3.forward;
             }
 
-            // ONLY set position if not already placed
-            if (_anchorTransform.parent == null && _anchorTransform.gameObject.scene.name != null) 
-            {
-                 // It's a scene object, maybe we shouldn't move it if it's already there?
-                 // Actually, if we are in fallback mode, we want to place it ONCE in front of the user
-                 // and then let the user move around it.
-            }
-            
             // In fallback mode, we just want to spawn it at a fixed distance once.
             // If it already exists, we do NOT move it to the camera again.
             if (_currentVisual != null)
             {
-                 FeedbackChanged?.Invoke("Objeto já colocado. Mova-se para vê-lo.");
+                 FeedbackChanged?.Invoke("Objeto já colocado.");
                  return;
             }
 

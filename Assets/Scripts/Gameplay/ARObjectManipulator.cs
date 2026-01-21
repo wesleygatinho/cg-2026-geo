@@ -122,7 +122,7 @@ namespace ARGeometryGame.Gameplay
             }
         }
 
-        private void HandleTwoTouches(Touch t0, Touch Touch1)
+        private void HandleTwoTouches(Touch t0, Touch t1)
         {
             if (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began)
             {
@@ -139,12 +139,12 @@ namespace ARGeometryGame.Gameplay
             }
 
             var p0 = t0.position;
-            var p1 = Touch1.position;
+            var p1 = t1.position;
 
             var pinchDistance = Vector2.Distance(p0, p1);
             var twistAngle = Mathf.Atan2(p1.y - p0.y, p1.x - p0.x) * Mathf.Rad2Deg;
 
-            if (t0.phase == TouchPhase.Began || Touch1.phase == TouchPhase.Began)
+            if (t0.phase == TouchPhase.Began || t1.phase == TouchPhase.Began)
             {
                 _lastPinchDistance = pinchDistance;
                 _lastTwistAngle = twistAngle;
@@ -163,7 +163,7 @@ namespace ARGeometryGame.Gameplay
             transform.Rotate(0f, -angleDelta, 0f, Space.World);
             _lastTwistAngle = twistAngle;
 
-            if (t0.phase == TouchPhase.Ended || Touch1.phase == TouchPhase.Ended || t0.phase == TouchPhase.Canceled || Touch1.phase == TouchPhase.Canceled)
+            if (t0.phase == TouchPhase.Ended || t1.phase == TouchPhase.Ended || t0.phase == TouchPhase.Canceled || t1.phase == TouchPhase.Canceled)
             {
                 _selected = false;
                 GetComponent<IdleRotator>()?.SetInteracting(false);
