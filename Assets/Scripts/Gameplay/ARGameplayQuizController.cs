@@ -40,6 +40,14 @@ namespace ARGeometryGame.Gameplay
             EnsureReferences();
             LoadRunQuestions();
             RaiseQuestionChanged();
+            
+            // Desativar planos permanentemente
+            if (planeVisibilityController != null)
+            {
+                planeVisibilityController.SetPlanesVisible(false);
+                _planesVisible = false;
+            }
+            
             if (!HasPlacedObject && ShouldUseFallbackPlacement())
             {
                 TryPlaceFallback();

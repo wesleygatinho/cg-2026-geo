@@ -95,8 +95,8 @@ namespace ARGeometryGame.AR
             transparentGridMaterial.renderQueue = 3000;
 
             // Cor cinza transparente com malha
-            var gridColor = new Color(0.5f, 0.5f, 0.5f, 0.3f); // Cinza transparente
-            transparentGridMaterial.color = gridColor;
+            var fillColor = new Color(0.5f, 0.5f, 0.5f, 0.08f); // leve preenchimento
+            transparentGridMaterial.color = fillColor;
             
             // Criar textura de malha
             var gridTexture = CreateGridTexture();
@@ -109,7 +109,7 @@ namespace ARGeometryGame.AR
             var tex = new Texture2D(size, size, TextureFormat.RGBA32, true);
             var colors = new Color[size * size];
             
-            var gridColor = new Color(0.8f, 0.8f, 0.8f, 0.5f); // Linhas da malha
+            var gridColor = new Color(0.9f, 0.9f, 0.9f, 0.6f); // Linhas da malha mais visíveis
             var transparent = new Color(1f, 1f, 1f, 0f); // Fundo transparente
 
             for (int y = 0; y < size; y++)

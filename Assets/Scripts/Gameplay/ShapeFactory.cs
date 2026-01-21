@@ -189,7 +189,8 @@ namespace ARGeometryGame.Gameplay
             mesh.RecalculateBounds();
 
             mf.sharedMesh = mesh;
-            go.transform.localRotation = Quaternion.identity;
+            // Colocar o triângulo em pé (vertical) em vez de deitado no chão
+            go.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
             go.AddComponent<MeshCollider>().sharedMesh = mesh;
             return go;
         }

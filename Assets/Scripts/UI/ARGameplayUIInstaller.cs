@@ -118,7 +118,8 @@ namespace ARGeometryGame.UI
 
             CreateButton(btnRow.transform, "Submit", "Responder", _greenBtn, OnSubmit);
             CreateButton(btnRow.transform, "Skip", "Pular", _orangeBtn, OnSkip);
-            CreateButton(btnRow.transform, "Planes", "Planos", _blueBtn, OnTogglePlanes);
+            // Botão de planos desabilitado - malha não está sendo usada
+            // CreateButton(btnRow.transform, "Planes", "Planos", _blueBtn, OnTogglePlanes);
 
             // === PAINEL DE FEEDBACK (Centro) ===
             _feedbackPanel = CreatePanel(root, "FeedbackPanel", _successColor).gameObject;
