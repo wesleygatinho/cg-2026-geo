@@ -11,15 +11,22 @@ namespace ARGeometryGame.Geometry
                 throw new ArgumentNullException(nameof(q));
             }
 
+            // Ajustar dimensões para o valor real: se visualScale < 1, os
+            // valores armazenados são menores para exibir objetos pequenos.
+            // Ex: visualScale=0.1 -> valores reais são 10x maiores.
+            var scaleFactor = (q.visualScale > 0f) ? 1.0 / q.visualScale : 1.0;
+
+            double A(double v) => v * scaleFactor;
+
             return q.shape switch
             {
-                GeometryShapeKind.Rectangle => ComputeRectangle(q.metric, q.a, q.b),
-                GeometryShapeKind.Triangle => ComputeTriangle(q.metric, q.a, q.b, q.c),
-                GeometryShapeKind.Circle => ComputeCircle(q.metric, q.r),
-                GeometryShapeKind.Cube => ComputeCube(q.metric, q.a),
-                GeometryShapeKind.Cuboid => ComputeCuboid(q.metric, q.a, q.b, q.c),
-                GeometryShapeKind.Cylinder => ComputeCylinder(q.metric, q.r, q.h),
-                GeometryShapeKind.Sphere => ComputeSphere(q.metric, q.r),
+                GeometryShapeKind.Rectangle => ComputeRectangle(q.metric, A(q.a), A(q.b)),
+                GeometryShapeKind.Triangle => ComputeTriangle(q.metric, A(q.a), A(q.b), A(q.c)),
+                GeometryShapeKind.Circle => ComputeCircle(q.metric, A(q.r)),
+                GeometryShapeKind.Cube => ComputeCube(q.metric, A(q.a)),
+                GeometryShapeKind.Cuboid => ComputeCuboid(q.metric, A(q.a), A(q.b), A(q.c)),
+                GeometryShapeKind.Cylinder => ComputeCylinder(q.metric, A(q.r), A(q.h)),
+                GeometryShapeKind.Sphere => ComputeSphere(q.metric, A(q.r)),
                 _ => throw new NotSupportedException($"Forma não suportada: {q.shape}")
             };
         }

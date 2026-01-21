@@ -19,7 +19,9 @@ namespace ARGeometryGame.Geometry
         public float tolerance;
         public string unit;
 
-        // Fator opcional para reduzir o tamanho visual sem alterar os valores reais usados nos cálculos.
+        // Fator que relaciona o tamanho visual do objeto (pequeno na cena)
+        // ao tamanho real usado nos cálculos. Ex: visualScale=0.1 -> valores
+        // reais são 10x maiores que os valores armazenados no JSON.
         public float visualScale = 1f;
     }
 }
