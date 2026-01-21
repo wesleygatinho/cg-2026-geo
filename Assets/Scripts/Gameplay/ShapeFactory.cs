@@ -22,6 +22,10 @@ namespace ARGeometryGame.Gameplay
             };
 
             go.transform.SetParent(root.transform, false);
+            // Ajuste de escala visual opcional para manter os sólidos pequenos na tela,
+            // sem alterar os valores reais usados nos cálculos das questões.
+            var visualScale = q.visualScale > 0f ? q.visualScale : 1f;
+            root.transform.localScale = Vector3.one * visualScale;
             ApplyMaterial(go, q.shape);
             return root;
         }

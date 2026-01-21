@@ -5,186 +5,205 @@
       "prompt": "Olhe essa porta retangular! Se ela tem 2 metros de largura e 3 metros de altura, quantos metros quadrados de tinta precisamos para pintá-la?",
       "shape": 0,
       "metric": 1,
-      "a": 0.30,
-      "b": 0.20,
-      "tolerance": 0.5,
-      "unit": "m2"
+      "a": 2.0,
+      "b": 3.0,
+      "tolerance": 0.1,
+      "unit": "m2",
+      "visualScale": 0.1
     },
     {
       "id": "q_rect_per_kids_01",
       "prompt": "Vamos medir uma janela retangular! Se ela tem 2 metros de largura e 1 metro de altura, quantos metros de moldura precisamos comprar para contornar toda a janela?",
       "shape": 0,
       "metric": 0,
-      "a": 0.30,
-      "b": 0.20,
-      "tolerance": 0.5,
-      "unit": "m"
+      "a": 2.0,
+      "b": 1.0,
+      "tolerance": 0.1,
+      "unit": "m",
+      "visualScale": 0.1
     },
     {
       "id": "q_rect_area_kids_02",
       "prompt": "Esta é uma mesa retangular. Se ela tem 1 metro de largura e 2 metros de comprimento, qual é a área da superfície da mesa?",
       "shape": 0,
       "metric": 1,
-      "a": 0.10,
-      "b": 0.20,
-      "tolerance": 0.5,
-      "unit": "m2"
+      "a": 1.0,
+      "b": 2.0,
+      "tolerance": 0.1,
+      "unit": "m2",
+      "visualScale": 0.1
     },
     {
       "id": "q_rect_per_kids_02",
       "prompt": "Uma cerca retangular precisa ser construída! Se o terreno tem 4 metros de largura e 5 metros de comprimento, quantos metros de cerca são necessários?",
       "shape": 0,
       "metric": 0,
-      "a": 0.40,
-      "b": 0.50,
-      "tolerance": 0.5,
-      "unit": "m"
+      "a": 4.0,
+      "b": 5.0,
+      "tolerance": 0.1,
+      "unit": "m",
+      "visualScale": 0.1
     },
     {
       "id": "q_tri_per_kids_01",
       "prompt": "Que legal! Este é um triângulo. Se os três lados medem 3 metros, 4 metros e 5 metros, qual é a medida total de todos os lados juntos?",
       "shape": 1,
       "metric": 0,
-      "a": 0.20,
-      "b": 0.25,
-      "c": 0.30,
-      "tolerance": 0.5,
-      "unit": "m"
+      "a": 3.0,
+      "b": 4.0,
+      "c": 5.0,
+      "tolerance": 0.1,
+      "unit": "m",
+      "visualScale": 0.1
     },
     {
       "id": "q_tri_per_kids_02",
       "prompt": "Um triângulo de bandeira tem lados de 2 metros, 2 metros e 3 metros. Qual é o comprimento total da borda do triângulo?",
       "shape": 1,
       "metric": 0,
-      "a": 0.20,
-      "b": 0.20,
-      "c": 0.30,
+      "a": 2.0,
+      "b": 2.0,
+      "c": 3.0,
       "tolerance": 0.1,
-      "unit": "m"
+      "unit": "m",
+      "visualScale": 0.1
     },
     {
       "id": "q_circ_area_kids_01",
       "prompt": "Que círculo bonito! Se o raio (a distância do centro até a borda) é de 1 metro, qual é a área deste círculo? (Use 3,14 como o valor de pi)",
       "shape": 2,
       "metric": 1,
-      "r": 0.10,
+      "r": 1.0,
       "tolerance": 0.1,
-      "unit": "m2"
+      "unit": "m2",
+      "visualScale": 0.1
     },
     {
       "id": "q_circ_area_kids_02",
       "prompt": "Uma pizza redonda tem um raio de 2 metros. Quantos metros quadrados de pizza temos? (Use 3,14 para pi)",
       "shape": 2,
       "metric": 1,
-      "r": 0.20,
+      "r": 2.0,
       "tolerance": 0.1,
-      "unit": "m2"
+      "unit": "m2",
+      "visualScale": 0.1
     },
     {
       "id": "q_cube_vol_kids_01",
       "prompt": "Olha que cubo interessante! Se cada lado mede 1 metro, quantos metros cúbicos de espaço cabem dentro deste cubo?",
       "shape": 3,
       "metric": 2,
-      "a": 0.10,
+      "a": 1.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_cube_vol_kids_02",
       "prompt": "Um cubo mágico tem lados de 2 metros cada. Qual é o volume deste cubo? (Quantos cubinhos pequenos cabem dentro dele?)",
       "shape": 3,
       "metric": 2,
-      "a": 0.20,
+      "a": 2.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_cube_sa_kids_01",
       "prompt": "Um dado gigante tem lados de 1 metro. Se quisermos pintar todas as 6 faces deste cubo, quantos metros quadrados de tinta precisamos?",
       "shape": 3,
       "metric": 3,
-      "a": 0.10,
+      "a": 1.0,
       "tolerance": 0.1,
-      "unit": "m2"
+      "unit": "m2",
+      "visualScale": 0.1
     },
     {
       "id": "q_cuboid_vol_kids_01",
       "prompt": "Esta é uma caixa de sapatos! Se ela tem 1 metro de comprimento, 2 metros de largura e 3 metros de altura, quantos metros cúbicos de coisas cabem dentro dela?",
       "shape": 4,
       "metric": 2,
-      "a": 0.10,
-      "b": 0.20,
-      "c": 0.30,
+      "a": 1.0,
+      "b": 2.0,
+      "c": 3.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_cuboid_vol_kids_02",
       "prompt": "Uma piscina retangular tem 2 metros de largura, 4 metros de comprimento e 1 metro de profundidade. Quantos metros cúbicos de água cabem nesta piscina?",
       "shape": 4,
       "metric": 2,
-      "a": 0.20,
-      "b": 0.40,
-      "c": 0.10,
+      "a": 2.0,
+      "b": 4.0,
+      "c": 1.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_cylinder_vol_kids_01",
       "prompt": "Que cilindro legal! Se a base tem um raio de 1 metro e a altura é de 2 metros, qual é o volume deste cilindro? (Use 3,14 para pi)",
       "shape": 5,
       "metric": 2,
-      "r": 0.10,
-      "h": 0.20,
+      "r": 1.0,
+      "h": 2.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_cylinder_vol_kids_02",
       "prompt": "Uma lata de refrigerante gigante! Se o raio da base é de 1 metro e a altura é de 3 metros, quantos metros cúbicos de líquido cabem dentro? (Use 3,14 para pi)",
       "shape": 5,
       "metric": 2,
-      "r": 0.10,
-      "h": 0.30,
+      "r": 1.0,
+      "h": 3.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_sphere_vol_kids_01",
       "prompt": "Olha que bola perfeita! Se o raio da esfera é de 1 metro, qual é o volume desta bola? (Use 3,14 para pi)",
       "shape": 6,
       "metric": 2,
-      "r": 0.10,
+      "r": 1.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_sphere_vol_kids_02",
       "prompt": "Uma bexiga gigante tem um raio de 2 metros. Quantos metros cúbicos de ar cabem dentro dela? (Use 3,14 para pi)",
       "shape": 6,
       "metric": 2,
-      "r": 0.20,
+      "r": 2.0,
       "tolerance": 0.1,
-      "unit": "m3"
+      "unit": "m3",
+      "visualScale": 0.1
     },
     {
       "id": "q_rect_area_kids_03",
       "prompt": "Um tapete retangular tem 3 metros de largura e 4 metros de comprimento. Quantos metros quadrados de tecido foram usados para fazer este tapete?",
       "shape": 0,
       "metric": 1,
-      "a": 0.30,
-      "b": 0.40,
+      "a": 3.0,
+      "b": 4.0,
       "tolerance": 0.1,
-      "unit": "m2"
+      "unit": "m2",
+      "visualScale": 0.1
     },
     {
       "id": "q_circ_area_kids_03",
       "prompt": "Um relógio circular tem um raio de 3 metros. Qual é a área deste relógio? (Use 3,14 para pi)",
       "shape": 2,
       "metric": 1,
-      "r": 0.30,
+      "r": 3.0,
       "tolerance": 0.1,
-      "unit": "m2"
+      "unit": "m2",
+      "visualScale": 0.1
     }
   ]
 }

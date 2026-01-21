@@ -18,6 +18,9 @@ namespace ARGeometryGame.Geometry
 
         public float tolerance;
         public string unit;
+
+        // Fator opcional para reduzir o tamanho visual sem alterar os valores reais usados nos cálculos.
+        public float visualScale = 1f;
     }
 }
 
